@@ -37,18 +37,11 @@ fn get_variants(report: &Vec<i64>) -> Vec<Vec<i64>> {
 }
 
 fn report_is_valid(report: &Vec<i64>) -> bool {
-    let first = report.first().unwrap();
-    let second = report.get(1).unwrap();
-    let increasing = (first - second) < 0;
-
-    for slice in report.windows(2) {
-        let left = slice.first().unwrap();
-        let right = slice.last().unwrap();
-        let diff = left.abs_diff(*right);
-        let inc = (left - right) < 0;
-        if diff < 1 || diff > 3 || increasing != inc {
-            return false;
-        }
-    }
-    true
+    let increasing = report.is_sorted();
+    let decreasing = report.is_sorted_by(|a, b| a>b);
+    report.windows(2).map(|w| {
+        let left = w[0];
+        let right = w[1];
+        left.abs_diff(right)
+        }).all(|diff| diff >= 1 && diff <= 3 && (increasing || decreasing))
 }
