@@ -11,7 +11,6 @@ pub fn solve() {
         .unzip();
     println!("Part 1: {}", part1(&mut left_list, &mut right_list));
     println!("Part 2: {}", part2(&left_list, &right_list));
-
 }
 
 pub fn part2(left: &Vec<u32>, right: &Vec<u32>) -> u32 {

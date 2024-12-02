@@ -12,27 +12,23 @@ pub fn solve() {
         .collect();
     println!("Part 1: {:?}", part1(&input));
     println!("Part 2: {:?}", part2(&input));
-
 }
 
-fn part1(input: &Vec<Vec<i64>>) -> usize{
+fn part1(input: &Vec<Vec<i64>>) -> usize {
     input.into_iter().cloned().filter(report_is_valid).count()
 }
 
-fn part2(input: &Vec<Vec<i64>>) -> usize{
-    input.into_iter().cloned().filter(|x|{
-        for variant in get_variants(x) {
-            if report_is_valid(&variant) {
-                return true
-            }
-        }
-        false
-    }).count()
+fn part2(input: &Vec<Vec<i64>>) -> usize {
+    input
+        .into_iter()
+        .cloned()
+        .filter(|x| get_variants(x).iter().any(report_is_valid))
+        .count()
 }
 
-fn get_variants(report: &Vec<i64>) -> Vec<Vec<i64>>{
+fn get_variants(report: &Vec<i64>) -> Vec<Vec<i64>> {
     let mut variants = Vec::new();
-    for i in 0..report.len(){
+    for i in 0..report.len() {
         let mut variation = report.clone();
         variation.remove(i);
         variants.push(variation);
@@ -51,7 +47,7 @@ fn report_is_valid(report: &Vec<i64>) -> bool {
         let diff = left.abs_diff(*right);
         let inc = (left - right) < 0;
         if diff < 1 || diff > 3 || increasing != inc {
-            return false
+            return false;
         }
     }
     true
