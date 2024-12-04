@@ -16,22 +16,23 @@ fn part1(input: &String) -> i64 {
     let vertical_and_diagonal: i64 =    
     input
         .lines()
-        .collect::<Vec<&str>>()
+        .map(|line| line.chars().collect::<Vec<char>>())
+        .collect::<Vec<Vec<char>>>()
         .windows(4)
         .map(|block|{
             let mut score = 0;
             
             for i in 0..block[0].len()-3 {
-                let first1 = block[0].chars().nth(i).unwrap();
-                let second1 = block[1].chars().nth(i+1).unwrap();
-                let third1 = block[2].chars().nth(i+2).unwrap();
-                let fourth1 = block[3].chars().nth(i+3).unwrap();
+                let first1 = block[0][i];
+                let second1 = block[1][i+1];
+                let third1 = block[2][i+2];
+                let fourth1 = block[3][i+3];
                 let diagonal_word1 = String::from_iter(vec![first1,second1,third1,fourth1]);
 
-                let first2 = block[0].chars().nth(i+3).unwrap();
-                let second2 = block[1].chars().nth(i+2).unwrap();
-                let third2 = block[2].chars().nth(i+1).unwrap();
-                let fourth2 = block[3].chars().nth(i).unwrap();
+                let first2 = block[0][i+3];
+                let second2 = block[1][i+2];
+                let third2 = block[2][i+1];
+                let fourth2 = block[3][i];
                 let diagonal_word2 = String::from_iter(vec![first2,second2,third2,fourth2]);
 
                 if diagonal_word1 == "XMAS" || diagonal_word1 == "SAMX" {
@@ -42,10 +43,10 @@ fn part1(input: &String) -> i64 {
                 }
             }
             for i in 0..block[0].len() {
-                let first = block[0].chars().nth(i).unwrap();
-                let second = block[1].chars().nth(i).unwrap();
-                let third = block[2].chars().nth(i).unwrap();
-                let fourth = block[3].chars().nth(i).unwrap();
+                let first = block[0][i];
+                let second = block[1][i];
+                let third = block[2][i];
+                let fourth = block[3][i];
                 let vertical_word = String::from_iter(vec![first,second,third,fourth]);
                 if vertical_word == "XMAS" || vertical_word == "SAMX" {
                     score += 1;
@@ -61,20 +62,21 @@ fn part1(input: &String) -> i64 {
 fn part2(input: &String) -> i64 {
     input
         .lines()
-        .collect::<Vec<&str>>()
+        .map(|line| line.chars().collect::<Vec<char>>())
+        .collect::<Vec<Vec<char>>>()
         .windows(3)
         .map(|block|{
             let mut score = 0;
             
             for i in 0..block[0].len()-2 {
-                let first1 = block[0].chars().nth(i).unwrap();
-                let second1 = block[1].chars().nth(i+1).unwrap();
-                let third1 = block[2].chars().nth(i+2).unwrap();
+                let first1 = block[0][i];
+                let second1 = block[1][i+1];
+                let third1 = block[2][i+2];
                 let diagonal_word1 = String::from_iter(vec![first1,second1,third1]);
 
-                let first2 = block[0].chars().nth(i+2).unwrap();
-                let second2 = block[1].chars().nth(i+1).unwrap();
-                let third2 = block[2].chars().nth(i).unwrap();
+                let first2 = block[0][i+2];
+                let second2 = block[1][i+1];
+                let third2 = block[2][i];
                 let diagonal_word2 = String::from_iter(vec![first2,second2,third2]);
 
                 if (diagonal_word1 == "MAS" || diagonal_word1 == "SAM") && (diagonal_word2 == "MAS" || diagonal_word2 == "SAM") {
