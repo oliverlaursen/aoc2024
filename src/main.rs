@@ -2,5 +2,5 @@ mod solutions;
 mod parser;
 
 fn main() {
-    solutions::dec3::solve();
+    solutions::dec4::solve();
 }
