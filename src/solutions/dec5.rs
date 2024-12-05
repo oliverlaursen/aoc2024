@@ -3,8 +3,6 @@ use std::{
     fs,
 };
 
-use rand::seq::SliceRandom;
-use rand::thread_rng;
 
 pub fn solve() {
     let input = fs::read_to_string("input/input5.txt").unwrap();
@@ -42,20 +40,20 @@ fn part1(page_rules: &HashMap<i64, Vec<i64>>, updates: &Vec<Vec<i64>>) -> i64 {
 }
 
 fn is_valid(update: &Vec<i64>, page_rules: &HashMap<i64, Vec<i64>>) -> bool {
-    let mut seen = HashSet::new();
-    for order in update {
-        let empty_vec = Vec::new();
-        let must_see_before = page_rules.get(order).unwrap_or(&empty_vec);
-        if must_see_before
-            .iter()
-            .any(|x| update.contains(x) && !seen.contains(x))
-        {
-            return false;
-        }
-        seen.insert(order);
-    }
-    true
+    update.iter().fold(Some(HashSet::new()), |acc, &order| {
+        acc.and_then(|mut seen| {
+            let empty_vec = Vec::new();
+            let must_see_before = page_rules.get(&order).unwrap_or(&empty_vec);
+            if must_see_before.iter().any(|x| update.contains(x) && !seen.contains(x)) {
+                None 
+            } else {
+                seen.insert(order);
+                Some(seen) 
+            }
+        })
+    }).is_some()
 }
+
 
 fn part2(page_rules: &HashMap<i64, Vec<i64>>, updates: &mut Vec<Vec<i64>>) -> i64 {
     let mut count = 0;
