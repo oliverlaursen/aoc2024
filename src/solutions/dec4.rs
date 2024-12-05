@@ -2,8 +2,11 @@ use std::fs;
 
 pub fn solve() {
     let input = fs::read_to_string("input/input4.txt").unwrap();
+    let before = std::time::Instant::now();
     println!("Part 1: {:?}", part1(&input));
     println!("Part 2: {:?}", part2(&input));
+    let after = std::time::Instant::now();
+    println!("Solution took {:?}", after.duration_since(before));
 }
 
 fn part1(input: &String) -> i64 {
@@ -11,6 +14,7 @@ fn part1(input: &String) -> i64 {
         if String::from_iter(word) == "XMAS" || String::from_iter(word) == "SAMX" {
             return 1
         }
+        
         0
     }).sum();
     let vertical_and_diagonal: i64 =    
