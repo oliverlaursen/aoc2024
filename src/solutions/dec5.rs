@@ -1,11 +1,12 @@
 use std::{
     collections::{HashMap, HashSet},
-    fs,
+    fs, time::Instant,
 };
 
 
 pub fn solve() {
     let input = fs::read_to_string("input/input5.txt").unwrap();
+    let time = Instant::now();
     let mut split = input.split("\n\n");
     let mut page_rules: HashMap<i64, Vec<i64>> = HashMap::new();
     split
@@ -25,8 +26,15 @@ pub fn solve() {
         .lines()
         .map(|line| line.split(',').map(|x| x.parse().unwrap()).collect())
         .collect();
+    let part_timer = Instant::now();
     println!("Part 1: {:?}", part1(&page_rules, &updates));
+    println!("Part 1 took {:?}", part_timer.elapsed());
+
+    let part_timer = Instant::now();
     println!("Part 2: {:?}", part2(&page_rules, &mut updates));
+    println!("Part 2 took {:?}", part_timer.elapsed());
+
+    println!("Solution took {:?}", time.elapsed())
 }
 
 fn part1(page_rules: &HashMap<i64, Vec<i64>>, updates: &Vec<Vec<i64>>) -> i64 {
