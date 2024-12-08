@@ -16,18 +16,6 @@ enum Field {
     Visited,
 }
 
-impl fmt::Display for Field {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let output = match self {
-            Field::Empty => '.',
-            Field::Obstacle => '#',
-            Field::Guard => '^',
-            Field::Visited => 'X',
-        };
-        write!(f, "{}", output)
-    }
-}
-
 #[derive(PartialEq, Hash,Eq, Clone)]
 enum Direction {
     Left,
@@ -113,15 +101,6 @@ pub fn solve() {
     println!("Part 2 took {:?}", timer.elapsed());
 }
 
-fn print_grid(grid: &Grid<Field>) {
-    for row in 0..grid.rows(){
-        for col in 0..grid.cols(){
-            print!("{}",grid.get(row, col).unwrap())
-        }
-        println!();
-    }
-}
-
 fn part1(grid: &mut Grid<Field>) -> i64 {
     let mut guard = Guard::from_grid(grid).unwrap();
     let mut visited = HashSet::new();
@@ -153,8 +132,7 @@ fn part2(grid: &mut Grid<Field>) -> i64 {
             }
         }
     }
-    for (i,pos) in positions_to_try.iter().enumerate() {
-        println!("TRYING POS {i}/{}: {:?}",positions_to_try.len(), pos);
+    for pos in positions_to_try {
         guard.set_pos(initial_pos);
         guard.set_direction(Direction::Up);
         *grid.get_mut(pos.0, pos.1).unwrap() = Field::Obstacle;
