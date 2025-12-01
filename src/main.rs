@@ -2,5 +2,5 @@ mod solutions;
 mod parser;
 
 fn main() {
-    solutions::dec9::solve();
+    solutions::y2025::dec1::solve();
 }
