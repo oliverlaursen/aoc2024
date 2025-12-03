@@ -67,6 +67,5 @@ fn part2_solve(bank: &Vec<usize>) -> usize {
             .collect();
         i += max_idx + 1;
     }
-    println!("RES: {}", result);
     result
 }
